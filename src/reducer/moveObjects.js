@@ -3,41 +3,44 @@ const moveObjects = (state, _) => {
     const bulletMovingDistance = 3;
 
     const { playerTank, bullets, walls, field } = state;
-    const dir = playerTank.direction;
     let newPlayerTank = {...playerTank};
-    let newBullets = bullets.map((bullet) => {
-        const { posX, posY, direction: dir } = bullet;
-        const newBulletPosX = posX + (dir === 'left' ? -bulletMovingDistance : dir === 'right' ? bulletMovingDistance : 0);
-        const newBulletPosY = posY + (dir === 'up' ? -bulletMovingDistance : dir === 'down' ? bulletMovingDistance : 0);
-        
-        if(newBulletPosX > state.field.width 
-            || newBulletPosY > state.field.height
-            || newBulletPosX < 0
-            || newBulletPosY < 0) {
-            return null
-        } else {
-            return {
-                posX: newBulletPosX,
-                posY: newBulletPosY,
-                direction: dir
-            }
-        }
-    }).filter(item => item !== null);
-
-    if(playerTank.moving) {
-        let { width } = newPlayerTank;
-        newPlayerTank.posY += dir === 'up' ? -tankMovingDistance : dir === 'down' ? tankMovingDistance : 0;
-        newPlayerTank.posX += dir === 'left' ? -tankMovingDistance : dir === 'right' ? tankMovingDistance : 0;
-        if(!canMove(walls, field, width, newPlayerTank.posX, newPlayerTank.posY)) {
-            newPlayerTank.posY = state.playerTank.posY;
-            newPlayerTank.posX = state.playerTank.posX;
-        }
-    }
+    let newBullets = moveBullets(bullets, bulletMovingDistance)
 
     return {
         ...state,
         bullets: [...newBullets],
-        playerTank: {...newPlayerTank}
+        playerTank: movePlayerTank(newPlayerTank, tankMovingDistance)
+    }
+
+    function moveBullets(bullets, bulletMovingDistance) {
+        return bullets.map((bullet) => {
+            const { posX, posY, direction: dir } = bullet;
+            const newBulletPosX = posX + (dir === 'left' ? -bulletMovingDistance : dir === 'right' ? bulletMovingDistance : 0);
+            const newBulletPosY = posY + (dir === 'up' ? -bulletMovingDistance : dir === 'down' ? bulletMovingDistance : 0);
+            
+            if(!canMove(walls, field, 3, newBulletPosX, newBulletPosY)) {
+                return null
+            } else {
+                return {
+                    posX: newBulletPosX,
+                    posY: newBulletPosY,
+                    direction: dir
+                }
+            }
+        }).filter(item => item !== null);
+    }
+
+    function movePlayerTank(newPlayerTank, tankMovingDistance) {
+        if(newPlayerTank.moving) {
+            let { width, direction } = newPlayerTank;
+            newPlayerTank.posY += direction === 'up' ? -tankMovingDistance : direction === 'down' ? tankMovingDistance : 0;
+            newPlayerTank.posX += direction === 'left' ? -tankMovingDistance : direction === 'right' ? tankMovingDistance : 0;
+            if(!canMove(walls, field, width, newPlayerTank.posX, newPlayerTank.posY)) {
+                newPlayerTank.posY = state.playerTank.posY;
+                newPlayerTank.posX = state.playerTank.posX;
+            }
+        }
+        return newPlayerTank;
     }
 
     function canMove(walls, field, width, posX, posY) {
