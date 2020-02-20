@@ -1,5 +1,5 @@
 import moveObjects from './moveObjects';
-import playerFire from './player-fire';
+import fire from './player-fire';
 
 const fieldWidth = 500;
 const tankWidth = 30;
@@ -8,6 +8,7 @@ const initialState = {
     field: {
         width: fieldWidth,
         height: fieldWidth,
+        pause: false,
     },
     walls: [
         {
@@ -39,7 +40,7 @@ const initialState = {
             type: 'brick'
         },
         {
-            width: 220,
+            width: 200,
             height: 30,
             posX: 0,
             posY: 210,
@@ -87,7 +88,11 @@ const reducer = (state = initialState, action) => {
     // console.log(action.type);
     switch (action.type) {
         case "MOVE_OBJECTS":
-            return moveObjects({ ...state }, action);
+            if(state.field.pause) {
+                return state;
+            } else {
+                return moveObjects({ ...state }, action);
+            }
         case "START_MOVING": 
             return {
                 ...state,
@@ -105,15 +110,27 @@ const reducer = (state = initialState, action) => {
                 }
             }
         case "UPDATE_MOVING_DIRECTION":
-            return {
-                ...state,
-                playerTank: {
-                    ...state.playerTank,
-                    direction: action.payload
+            if(state.field.pause) {
+                return state;
+            } else {
+                return {
+                    ...state,
+                    playerTank: {
+                        ...state.playerTank,
+                        direction: action.payload
+                    }
                 }
             }
-        case "PLAYER_FIRE":
-            return playerFire({ ...state } , action);
+                case "PLAYER_FIRE":
+            return fire({ ...state } , true);
+        case "TOGGLE_PAUSE":
+            return {
+                ...state,
+                field: {
+                    ...state.field,
+                    pause: !state.field.pause
+                }
+            }
         default:
             return state; 
     }

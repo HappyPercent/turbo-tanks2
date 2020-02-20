@@ -25,10 +25,16 @@ const playerFire = () => {
         type: "PLAYER_FIRE",
     }
 }
+const togglePause = () => {
+    return {
+        type: "TOGGLE_PAUSE",
+    }
+}
 
 export {
     updateMovingDirection,
     toggleMoving,
     moveObjects,
-    playerFire
+    playerFire,
+    togglePause
 }

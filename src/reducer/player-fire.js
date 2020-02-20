@@ -1,5 +1,19 @@
-const playerFire = (state, _) => {
-    const { playerTank: { posX, posY, direction, width: tankWidth } } = state;
+const fire = (state, player) => {
+    let posX;
+    let posY;
+    let direction;
+    let tankWidth;
+    if(player) {
+        posX = state.playerTank.posX;
+        posY = state.playerTank.posY;
+        direction = state.playerTank.direction;
+        tankWidth = state.playerTank.width;
+    } else {
+        posX = state.computerTank.posX;
+        posY = state.computerTank.posY;
+        direction = state.computerTank.direction;
+        tankWidth = state.computerTank.width;
+    }
     let bulletPosX = posX;
     let bulletPosY = posY;
     if(direction === 'up') {
@@ -26,4 +40,4 @@ const playerFire = (state, _) => {
     }
 }
 
-export default playerFire;
+export default fire;

@@ -3,11 +3,11 @@ import React from 'react';
 import './app.css';
 import { withApi } from '../hoc';
 import { compose } from '../../utils';
-import Field from '../field';
+import FieldContainer from '../../containers/field-container';
 
 const App = ({ api }) => {
   return (
-    <Field />
+    <FieldContainer />
   )
 };
 
