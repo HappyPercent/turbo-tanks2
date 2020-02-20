@@ -9,7 +9,7 @@ class FieldContainer extends Component {
     componentDidMount() {
         window.addEventListener('keydown', this.handleKeyDown.bind(this));
         window.addEventListener('keyup', this.handleKeyUp.bind(this));
-        setInterval(this.props.moveObjects, 10);
+        setInterval(this.props.moveObjects, 20);
     }
 
     handleKeyUp(ev) {
@@ -34,7 +34,13 @@ class FieldContainer extends Component {
     }
 
     handleKeyDown(ev) {
-        const { toggleMoving, updateMovingDirection, playerFire, togglePause, makeSootAvaliable, playerTank: { canShoot } } = this.props
+        const { toggleMoving, 
+            updateMovingDirection, 
+            playerFire, 
+            togglePause, 
+            makeSootAvaliable, 
+            playerTank: { canShoot, shootingDelay }} = this.props;
+
         switch (ev.code) {
             case 'KeyA':
             case 'ArrowLeft':
@@ -64,7 +70,7 @@ class FieldContainer extends Component {
                     playerFire();
                     setTimeout(() => {
                         makeSootAvaliable();
-                    }, 500);
+                    }, shootingDelay);
                 }
                 break;
             default:

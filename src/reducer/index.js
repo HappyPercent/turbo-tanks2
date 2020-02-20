@@ -71,6 +71,7 @@ const initialState = {
     bullets: [],
     playerTank: {
         canShoot: true,
+        shootingDelay: 500,
         moving: false,
         width: tankWidth,
         posX: (fieldWidth - tankWidth) / 2,

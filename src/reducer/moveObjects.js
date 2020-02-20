@@ -1,14 +1,63 @@
 const moveObjects = (state, _) => {
     const tankMovingDistance = 2;
+    const computerTankMovingDistance = 1;
     const bulletMovingDistance = 4;
 
-    const { playerTank, bullets, walls, field } = state;
+    const { playerTank, bullets, computerTank, walls, field } = state;
     let newPlayerTank = {...playerTank};
 
     return {
         ...state,
         bullets: moveBullets(bullets, bulletMovingDistance),
-        playerTank: movePlayerTank(newPlayerTank, tankMovingDistance)
+        playerTank: movePlayerTank(newPlayerTank, tankMovingDistance),
+        computerTank: moveComputerTank(),
+    }
+
+    function moveComputerTank() {
+        let { posX: PPosX, posY: PPosY } = newPlayerTank;
+        let { posX: CPosX, posY: CPosY, direction, width } = computerTank;
+        let newСPosX = CPosX;
+        let newСPosY = CPosY;
+        let newDirection = direction;
+        let newStats = [
+            {
+                posX: newСPosX,
+                posY: newСPosY + computerTankMovingDistance,
+                direction: 'down'
+            }, 
+            {
+                posX: newСPosX,
+                posY: newСPosY - computerTankMovingDistance,
+                direction: 'up'
+            }, 
+            {
+                posX: newСPosX + computerTankMovingDistance,
+                posY: newСPosY,
+                direction: 'right'
+            }, 
+            {
+                posX: newСPosX - computerTankMovingDistance,
+                posY: newСPosY,
+                direction: 'left'
+            }, 
+        ]
+        
+        newStats.forEach((position) => {
+            if((Math.abs(position.posX - PPosX) < Math.abs(CPosX - PPosX) 
+            || Math.abs(position.posY - PPosY) < Math.abs(CPosY - PPosY))
+            && canMove(width, position.posX, position.posY)) {
+                newСPosX = position.posX;
+                newСPosY = position.posY;
+                newDirection = position.direction;
+            }
+        })
+
+        return {
+            ...state.computerTank,
+            posX: newСPosX,
+            posY: newСPosY,
+            direction: newDirection,
+        }
     }
 
     function moveBullets(bullets, bulletMovingDistance) {
@@ -50,7 +99,7 @@ const moveObjects = (state, _) => {
                     canMove = false;
             }
         });
-        if(posX < 0 || posY < 0 || posX > field.width - width || posY > field.height - width    ) canMove = false;
+        if(posX < 0 || posY < 0 || posX > field.width - width || posY > field.height - width) canMove = false;
 
         return canMove;
 
