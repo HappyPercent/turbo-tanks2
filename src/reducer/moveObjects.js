@@ -5,6 +5,7 @@ const moveObjects = (state, _) => {
 
     const { playerTank, bullets, computerTank, walls, field } = state;
     let newPlayerTank = {...playerTank};
+    const { width } = playerTank;
 
     return {
         ...state,
@@ -45,7 +46,7 @@ const moveObjects = (state, _) => {
         newStats.forEach((position) => {
             if((Math.abs(position.posX - PPosX) < Math.abs(CPosX - PPosX) 
             || Math.abs(position.posY - PPosY) < Math.abs(CPosY - PPosY))
-            && canMove(width, position.posX, position.posY)) {
+            && canMove(width, position.posX, position.posY) && !isTank(position.posX, position.posY, false)) {
                 newСPosX = position.posX;
                 newСPosY = position.posY;
                 newDirection = position.direction;
@@ -83,12 +84,52 @@ const moveObjects = (state, _) => {
             let { width, direction } = newPlayerTank;
             newPlayerTank.posY += direction === 'up' ? -tankMovingDistance : direction === 'down' ? tankMovingDistance : 0;
             newPlayerTank.posX += direction === 'left' ? -tankMovingDistance : direction === 'right' ? tankMovingDistance : 0;
-            if(!canMove(width, newPlayerTank.posX, newPlayerTank.posY)) {
+            if(!canMove(width, newPlayerTank.posX, newPlayerTank.posY) || isTank(newPlayerTank.posX, newPlayerTank.posY, true)) {
                 newPlayerTank.posY = state.playerTank.posY;
                 newPlayerTank.posX = state.playerTank.posX;
             }
         }
         return newPlayerTank;
+    }
+
+    function isTank(posX, posY, player) {
+        // debugger
+        if((!player && ((posX >= playerTank.posX
+            && posX <= playerTank.posX + playerTank.width
+            && posY >= playerTank.posY
+            && posY <= playerTank.posY + playerTank.width) 
+            ||(posX + width >= playerTank.posX
+            && posX + width <= playerTank.posX + playerTank.width
+            && posY >= playerTank.posY
+            && posY <= playerTank.posY + playerTank.width)
+            ||(posX >= playerTank.posX
+            && posX <= playerTank.posX + playerTank.width
+            && posY + width >= playerTank.posY
+            && posY + width <= playerTank.posY + playerTank.width)
+            ||(posX + width >= playerTank.posX
+            && posX + width <= playerTank.posX + playerTank.width
+            && posY + width >= playerTank.posY
+            && posY + width <= playerTank.posY + playerTank.width)))
+            || (player && ((posX >= computerTank.posX
+            && posX <= computerTank.posX + computerTank.width
+            && posY >= computerTank.posY
+            && posY <= computerTank.posY + computerTank.width) 
+            ||(posX + width >= computerTank.posX
+            && posX + width <= computerTank.posX + computerTank.width
+            && posY >= computerTank.posY
+            && posY <= computerTank.posY + computerTank.width)
+            ||(posX >= computerTank.posX
+            && posX <= computerTank.posX + computerTank.width
+            && posY + width >= computerTank.posY
+            && posY + width <= computerTank.posY + computerTank.width)
+            ||(posX + width >= computerTank.posX
+            && posX + width <= computerTank.posX + computerTank.width
+            && posY + width >= computerTank.posY
+            && posY + width <= computerTank.posY + computerTank.width)))) {
+                return true;
+        } else {
+            return false;
+        }
     }
 
     function canMove(width, posX, posY) {
