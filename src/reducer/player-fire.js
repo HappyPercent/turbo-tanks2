@@ -29,9 +29,11 @@ const fire = (state, player) => {
     }
     return {
         ...state,
-        playerTank: {
+        playerTank: player ? {
             ...state.playerTank,
             canShoot: false
+        } : {
+            ...state.playerTank
         },
         bullets: [
             ...state.bullets,

@@ -35,6 +35,11 @@ const makeSootAvaliable = () => {
         type: "MAKE_SHOOT_AVALIABLE",
     }
 }
+const computerFire = () => {
+    return {
+        type: "COMPUTER_FIRE",
+    }
+}
 
 export {
     updateMovingDirection,
@@ -42,5 +47,6 @@ export {
     moveObjects,
     playerFire,
     togglePause,
-    makeSootAvaliable
+    makeSootAvaliable,
+    computerFire
 }

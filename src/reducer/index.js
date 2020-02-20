@@ -87,6 +87,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+    console.log(action.type);
     switch (action.type) {
         case "MOVE_OBJECTS":
             if(state.field.pause) {
@@ -122,8 +123,10 @@ const reducer = (state = initialState, action) => {
                     }
                 }
             }
-                case "PLAYER_FIRE":
-            return fire({ ...state } , true);
+        case "PLAYER_FIRE":
+            return fire({ ...state }, true);
+        case "COMPUTER_FIRE": 
+            return fire({ ...state }, false);
         case "TOGGLE_PAUSE":
             return {
                 ...state,

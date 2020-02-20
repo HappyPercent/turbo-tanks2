@@ -2,14 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Field from '../../components/field';
-import { toggleMoving, updateMovingDirection, moveObjects, playerFire, togglePause, makeSootAvaliable } from '../../actions';
+import { toggleMoving, 
+    updateMovingDirection, 
+    moveObjects, 
+    playerFire, 
+    togglePause, 
+    makeSootAvaliable, 
+    computerFire } from '../../actions';
             
 class FieldContainer extends Component {
 
+    interval1 = 0;
+    interval2 = 0;
+
     componentDidMount() {
+        const { playerTank: { shootingDelay }, moveObjects, computerFire } = this.props;
         window.addEventListener('keydown', this.handleKeyDown.bind(this));
         window.addEventListener('keyup', this.handleKeyUp.bind(this));
-        setInterval(this.props.moveObjects, 20);
+        this.interval1 = setInterval(moveObjects, 20);
+        this.interval2 = setInterval(computerFire, shootingDelay);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval1);
+        clearInterval(this.interval2);
     }
 
     handleKeyUp(ev) {
@@ -106,6 +122,7 @@ const mapDispatchToProps = (dispatch) => {
         playerFire: () => dispatch(playerFire()),
         togglePause: () => dispatch(togglePause()),
         makeSootAvaliable: () => dispatch(makeSootAvaliable()),
+        computerFire: () => dispatch(computerFire()),
     }
 }
 
