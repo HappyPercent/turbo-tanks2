@@ -2,10 +2,10 @@ const moveObjects = (state, _) => {
     const tankMovingDistance = 2;
     const bulletMovingDistance = 3;
 
-    const { playerTank, computerTank, bullets, walls, field } = state;
+    const { playerTank, bullets, walls, field } = state;
     const dir = playerTank.direction;
     let newPlayerTank = {...playerTank};
-    let newBullets = state.bullets.map((bullet) => {
+    let newBullets = bullets.map((bullet) => {
         const { posX, posY, direction: dir } = bullet;
         const newBulletPosX = posX + (dir === 'left' ? -bulletMovingDistance : dir === 'right' ? bulletMovingDistance : 0);
         const newBulletPosY = posY + (dir === 'up' ? -bulletMovingDistance : dir === 'down' ? bulletMovingDistance : 0);

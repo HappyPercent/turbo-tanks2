@@ -11,19 +11,61 @@ const initialState = {
     },
     walls: [
         {
-            width: 100,
-            height: 10,
+            width: 90,
+            height: 30,
             posX: 0,
-            posY: 0,
+            posY: 30,
             type: 'brick'
         },
         {
             width: 30,
-            height: 100,
-            posX: 200,
-            posY: 100,
+            height: 80,
+            posX: 60,
+            posY: 60,
+            type: 'brick'
+        },
+        {
+            width: 30,
+            height: 240,
+            posX: 340,
+            posY: 50,
+            type: 'brick'
+        },
+        {
+            width: 260,
+            height: 30,
+            posX: 240,
+            posY: 140,
+            type: 'brick'
+        },
+        {
+            width: 220,
+            height: 30,
+            posX: 0,
+            posY: 210,
+            type: 'brick'
+        },
+        {
+            width: 40,
+            height: 40,
+            posX: 260,
+            posY: 210,
             type: 'steel'
-        }
+        },
+        {
+            width: 30,
+            height: 180,
+            posX: 100,
+            posY: 320,
+            type: 'brick'
+        },
+        {
+            width: 200,
+            height: 30,
+            posX: 300,
+            posY: 390,
+            type: 'brick'
+        },
     ],
     bullets: [],
     playerTank: {
