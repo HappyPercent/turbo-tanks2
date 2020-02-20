@@ -4,11 +4,10 @@ const moveObjects = (state, _) => {
 
     const { playerTank, bullets, walls, field } = state;
     let newPlayerTank = {...playerTank};
-    let newBullets = moveBullets(bullets, bulletMovingDistance)
 
     return {
         ...state,
-        bullets: [...newBullets],
+        bullets: moveBullets(bullets, bulletMovingDistance),
         playerTank: movePlayerTank(newPlayerTank, tankMovingDistance)
     }
 
@@ -18,7 +17,7 @@ const moveObjects = (state, _) => {
             const newBulletPosX = posX + (dir === 'left' ? -bulletMovingDistance : dir === 'right' ? bulletMovingDistance : 0);
             const newBulletPosY = posY + (dir === 'up' ? -bulletMovingDistance : dir === 'down' ? bulletMovingDistance : 0);
             
-            if(!canMove(walls, field, 3, newBulletPosX, newBulletPosY)) {
+            if(!canMove(3, newBulletPosX, newBulletPosY)) {
                 return null
             } else {
                 return {
@@ -35,7 +34,7 @@ const moveObjects = (state, _) => {
             let { width, direction } = newPlayerTank;
             newPlayerTank.posY += direction === 'up' ? -tankMovingDistance : direction === 'down' ? tankMovingDistance : 0;
             newPlayerTank.posX += direction === 'left' ? -tankMovingDistance : direction === 'right' ? tankMovingDistance : 0;
-            if(!canMove(walls, field, width, newPlayerTank.posX, newPlayerTank.posY)) {
+            if(!canMove(width, newPlayerTank.posX, newPlayerTank.posY)) {
                 newPlayerTank.posY = state.playerTank.posY;
                 newPlayerTank.posX = state.playerTank.posX;
             }
@@ -43,7 +42,7 @@ const moveObjects = (state, _) => {
         return newPlayerTank;
     }
 
-    function canMove(walls, field, width, posX, posY) {
+    function canMove(width, posX, posY) {
         let canMove = true;
                 
         walls.forEach(wall => {
