@@ -29,6 +29,10 @@ const fire = (state, player) => {
     }
     return {
         ...state,
+        playerTank: {
+            ...state.playerTank,
+            canShoot: false
+        },
         bullets: [
             ...state.bullets,
             {

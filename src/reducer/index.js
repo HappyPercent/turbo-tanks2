@@ -70,6 +70,7 @@ const initialState = {
     ],
     bullets: [],
     playerTank: {
+        canShoot: true,
         moving: false,
         width: tankWidth,
         posX: (fieldWidth - tankWidth) / 2,
@@ -85,7 +86,6 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    // console.log(action.type);
     switch (action.type) {
         case "MOVE_OBJECTS":
             if(state.field.pause) {
@@ -129,6 +129,14 @@ const reducer = (state = initialState, action) => {
                 field: {
                     ...state.field,
                     pause: !state.field.pause
+                }
+            }
+        case "MAKE_SHOOT_AVALIABLE":
+            return {
+                ...state,
+                playerTank: {
+                    ...state.playerTank,
+                    canShoot: true,
                 }
             }
         default:

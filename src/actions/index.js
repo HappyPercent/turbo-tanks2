@@ -30,11 +30,17 @@ const togglePause = () => {
         type: "TOGGLE_PAUSE",
     }
 }
+const makeSootAvaliable = () => {
+    return {
+        type: "MAKE_SHOOT_AVALIABLE",
+    }
+}
 
 export {
     updateMovingDirection,
     toggleMoving,
     moveObjects,
     playerFire,
-    togglePause
+    togglePause,
+    makeSootAvaliable
 }

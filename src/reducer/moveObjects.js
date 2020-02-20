@@ -1,6 +1,6 @@
 const moveObjects = (state, _) => {
     const tankMovingDistance = 2;
-    const bulletMovingDistance = 3;
+    const bulletMovingDistance = 4;
 
     const { playerTank, bullets, walls, field } = state;
     let newPlayerTank = {...playerTank};

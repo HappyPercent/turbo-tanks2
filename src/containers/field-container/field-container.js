@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Field from '../../components/field';
-import { toggleMoving, updateMovingDirection, moveObjects, playerFire, togglePause } from '../../actions';
+import { toggleMoving, updateMovingDirection, moveObjects, playerFire, togglePause, makeSootAvaliable } from '../../actions';
             
 class FieldContainer extends Component {
 
@@ -34,7 +34,7 @@ class FieldContainer extends Component {
     }
 
     handleKeyDown(ev) {
-        const { toggleMoving, updateMovingDirection, playerFire, togglePause } = this.props
+        const { toggleMoving, updateMovingDirection, playerFire, togglePause, makeSootAvaliable, playerTank: { canShoot } } = this.props
         switch (ev.code) {
             case 'KeyA':
             case 'ArrowLeft':
@@ -60,7 +60,12 @@ class FieldContainer extends Component {
                 togglePause();
                 break;
             case 'Space':
-                playerFire();
+                if(canShoot) {
+                    playerFire();
+                    setTimeout(() => {
+                        makeSootAvaliable();
+                    }, 500);
+                }
                 break;
             default:
                 break;
@@ -94,6 +99,7 @@ const mapDispatchToProps = (dispatch) => {
         moveObjects: () => dispatch(moveObjects()),
         playerFire: () => dispatch(playerFire()),
         togglePause: () => dispatch(togglePause()),
+        makeSootAvaliable: () => dispatch(makeSootAvaliable()),
     }
 }
 
