@@ -16,8 +16,10 @@ const fire = (state, player) => {
     }
     let bulletPosX = posX;
     let bulletPosY = posY;
+    const extraSpace = 3;
     if(direction === 'up') {
         bulletPosX += tankWidth / 2;
+        bulletPosY -= extraSpace;
     } else if(direction === 'right') {
         bulletPosX += tankWidth;
         bulletPosY += tankWidth / 2;
@@ -26,6 +28,7 @@ const fire = (state, player) => {
         bulletPosY += tankWidth;
     } else if(direction === 'left') {
         bulletPosY += tankWidth / 2;
+        bulletPosX -= extraSpace;
     }
     return {
         ...state,

@@ -9,6 +9,9 @@ const initialState = {
         width: fieldWidth,
         height: fieldWidth,
         pause: false,
+        gameOver: true,
+        score: 0,
+        lifes: 2,
     },
     walls: [
         {
@@ -126,6 +129,9 @@ const reducer = (state = initialState, action) => {
         case "PLAYER_FIRE":
             return fire({ ...state }, true);
         case "COMPUTER_FIRE": 
+            if(state.field.pause) {
+                return state;
+            }
             return fire({ ...state }, false);
         case "TOGGLE_PAUSE":
             return {

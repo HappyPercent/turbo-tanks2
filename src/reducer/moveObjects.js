@@ -6,11 +6,59 @@ const moveObjects = (state, _) => {
     const { playerTank, bullets, computerTank, walls, field } = state;
     let newPlayerTank = {...playerTank};
 
-    return {
+    const stateAfterCrashCheck = checkCrash({
         ...state,
         bullets: moveBullets(bullets, bulletMovingDistance),
         playerTank: movePlayerTank(newPlayerTank, tankMovingDistance),
         computerTank: moveComputerTank(),
+    })
+
+    return stateAfterCrashCheck;
+
+    function checkCrash(state) {
+        let { playerTank, computerTank, bullets, field: { lifes, gameOver, score } } = state;
+        let playerKilled = false;
+        let computerKilled = false;
+
+        const newBullets = bullets.map(bullet => {
+            const { posX, posY } = bullet;
+            if(isObstacle(playerTank, playerTank.width, playerTank.width, 3, posX, posY)) {
+                playerKilled = true;
+                return null;
+            }
+            if(isObstacle(computerTank, computerTank.width, computerTank.width, 3, posX, posY)) {
+                computerKilled = true;
+                return null;
+            }
+            return bullet;
+        }).filter(item => item !== null);
+
+        if(playerKilled) {
+            if(lifes > 0) {
+                lifes--
+            } else {
+                gameOver = true;
+            }
+        }
+
+        if(computerKilled) {
+            computerTank.posX = (field.width - computerTank.width) / 2;
+            computerTank.posY = 0;
+            computerTank.direction = 'down';
+            score++;
+        }
+
+        return {
+            ...state,
+            computerTank,
+            bullets: newBullets,
+            field: {
+                ...state.field,
+                gameOver,
+                lifes,
+                score,
+            }
+        };
     }
 
     function moveComputerTank() {
