@@ -1,0 +1,15 @@
+.table-wrapper {
+    width: 300px;
+    height: 100%;
+    background: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px solid gray;
+}
+
+.leaderboard td {
+    margin-left: 10px;
+}

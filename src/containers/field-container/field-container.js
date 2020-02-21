@@ -29,68 +29,71 @@ class FieldContainer extends Component {
     }
 
     handleKeyUp(ev) {
-        const { toggleMoving } = this.props;
-        switch (ev.code) {
-            case 'KeyA':
-            case 'ArrowLeft':
-            case 'KeyW':
-            case 'ArrowUp':    
-            case 'KeyD':
-            case 'ArrowRight':
-            case 'KeyS':
-            case 'ArrowDown':
-                toggleMoving(false);
-                break;
-            case 'Escape':
-            case 'Space':
-                break;
-            default:
-                break;
+        if(ev.target.tagName !== 'INPUT') {
+            const { toggleMoving } = this.props;
+            switch (ev.code) {
+                case 'KeyA':
+                case 'ArrowLeft':
+                case 'KeyW':
+                case 'ArrowUp':    
+                case 'KeyD':
+                case 'ArrowRight':
+                case 'KeyS':
+                case 'ArrowDown':
+                    toggleMoving(false);
+                    break;
+                case 'Escape':
+                case 'Space':
+                    break;
+                default:
+                    break;
+            } 
         }
     }
 
     handleKeyDown(ev) {
-        const { toggleMoving, 
-            updateMovingDirection, 
-            playerFire, 
-            togglePause, 
-            makeSootAvaliable, 
-            playerTank: { canShoot, shootingDelay }} = this.props;
-
-        switch (ev.code) {
-            case 'KeyA':
-            case 'ArrowLeft':
-                toggleMoving(true);
-                updateMovingDirection('left');
-                break;
-            case 'KeyW':
-            case 'ArrowUp': 
-                toggleMoving(true);
-                updateMovingDirection('up');
-                break;
-            case 'KeyD':
-            case 'ArrowRight':
-                toggleMoving(true);
-                updateMovingDirection('right');
-                break;
-            case 'KeyS':
-            case 'ArrowDown':
-                toggleMoving(true);
-                updateMovingDirection('down');
-                break;
-            case 'Escape':
-                togglePause();
-                break;
-            case 'Space':
-                if(canShoot) {
-                    playerFire();
-                    setTimeout(() => {
-                        makeSootAvaliable();
-                    }, shootingDelay);
-                }
-                break;
-            default:
-                break;
+        if(ev.target.tagName !== 'INPUT') {
+            const { toggleMoving, 
+                updateMovingDirection, 
+                playerFire, 
+                togglePause, 
+                makeSootAvaliable, 
+                playerTank: { canShoot, shootingDelay }} = this.props;
+            switch (ev.code) {
+                case 'KeyA':
+                case 'ArrowLeft':
+                    toggleMoving(true);
+                    updateMovingDirection('left');
+                    break;
+                case 'KeyW':
+                case 'ArrowUp': 
+                    toggleMoving(true);
+                    updateMovingDirection('up');
+                    break;
+                case 'KeyD':
+                case 'ArrowRight':
+                    toggleMoving(true);
+                    updateMovingDirection('right');
+                    break;
+                case 'KeyS':
+                case 'ArrowDown':
+                    toggleMoving(true);
+                    updateMovingDirection('down');
+                    break;
+                case 'Escape':
+                    togglePause();
+                    break;
+                case 'Space':
+                    if(canShoot) {
+                        playerFire();
+                        setTimeout(() => {
+                            makeSootAvaliable();
+                        }, shootingDelay);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

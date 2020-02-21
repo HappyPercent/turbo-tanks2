@@ -14,10 +14,11 @@ class AuthForm extends Component {
 		super();
 		this.validation = validation;
 		this.handleFormChange = this.handleFormChange.bind(this);
+		this.submit = this.submit.bind(this);
 	}
 
 	submit(event) {
-		// event.preventDefault();
+		event.preventDefault();
 		let { api, authorize } = this.props;
 		api.post(event).then(res => authorize(true));
 	}

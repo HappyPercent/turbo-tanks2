@@ -1,5 +1,5 @@
 import moveObjects from './moveObjects';
-import fire from './player-fire';
+import fire from './fire';
 
 const fieldWidth = 500;
 const tankWidth = 30;
@@ -92,7 +92,8 @@ const initialState = {
         password: '',
         link: '',
         authorized: false,
-    }
+    },
+    leaderboard: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -169,6 +170,11 @@ const reducer = (state = initialState, action) => {
                     ...state.form,
                     [action.key]: action.value,
                 }
+            }
+        case "UPDATE_LEADERBOARD":
+            return {
+                ...state,
+                leaderboard: action.payload,
             }
         default:
             return state; 

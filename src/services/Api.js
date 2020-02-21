@@ -5,7 +5,7 @@
 
 export default class Api {
   constructor() {
-    this.url = 'https://v2-api.sheety.co/a5ef5d923274b26c584a4e108ade8c58';
+    this.url = 'https://v2-api.sheety.co/a5ef5d923274b26c584a4e108ade8c58/panzer/players';
   }
 
   //GET

@@ -52,6 +52,13 @@ const updateFormValues = (key, value) => {
         value
     }
 }
+const updateLeaderboard = (payload) => {
+    console.log(payload);
+    return {
+        type: "UPDATE_LEADERBOARD",
+        payload
+    }
+}
 
 export {
     updateMovingDirection,
@@ -62,5 +69,6 @@ export {
     makeSootAvaliable,
     computerFire,
     authorize,
-    updateFormValues
+    updateFormValues,
+    updateLeaderboard
 }
