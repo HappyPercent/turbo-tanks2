@@ -86,11 +86,16 @@ const initialState = {
         posX:  (fieldWidth - tankWidth) / 2,
         posY: 0,
         direction: 'down'
+    },
+    form: {
+        nickname: '',
+        password: '',
+        link: '',
+        authorized: false,
     }
 }
 
 const reducer = (state = initialState, action) => {
-    // console.log(action.type);
     switch (action.type) {
         case "MOVE_OBJECTS":
             if(state.field.pause) {
@@ -147,6 +152,22 @@ const reducer = (state = initialState, action) => {
                 playerTank: {
                     ...state.playerTank,
                     canShoot: true,
+                }
+            }
+        case "AUTHORIZE":
+            return {
+                ...state,
+                form: {
+                    ...state.form,
+                    authorized: true,
+                }
+            }
+        case "UPDATE_FORM_VALUES":
+            return {
+                ...state,
+                form: {
+                    ...state.form,
+                    [action.key]: action.value,
                 }
             }
         default:

@@ -40,6 +40,18 @@ const computerFire = () => {
         type: "COMPUTER_FIRE",
     }
 }
+const authorize = () => {
+    return {
+        type: "AUTHORIZE",
+    }
+}
+const updateFormValues = (key, value) => {
+    return {
+        type: "UPDATE_FORM_VALUES",
+        key,
+        value
+    }
+}
 
 export {
     updateMovingDirection,
@@ -48,5 +60,7 @@ export {
     playerFire,
     togglePause,
     makeSootAvaliable,
-    computerFire
+    computerFire,
+    authorize,
+    updateFormValues
 }

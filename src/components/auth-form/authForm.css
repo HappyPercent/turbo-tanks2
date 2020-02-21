@@ -1,0 +1,58 @@
+.form {
+    border: 1px solid grey;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    padding-top: 15px;
+    background: #fff;
+    width: 300px;
+  }
+  
+  .form label {
+    float: left;
+    width: 100px;
+    margin-right: 10px;
+    color: #464646;
+    text-align: right;
+    padding: 5px 0;
+  }
+  
+  .form input {
+    width: 150px;
+    background: #ebe8df;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #dad6cf;
+    outline: none;
+  }
+  
+  .form input:invalid {
+      border: 1px solid red
+  }
+  
+  .form input:valid {
+      border: 1px solid #dad6cf;
+  }
+  
+  .form .row {
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+.button {
+    font-size: 1.25rem;
+    width: 85%;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 15px;
+    margin-left: 25px;
+    cursor: pointer;
+  }
+  
+  .button_disabled {
+    background: rgb(219, 215, 215);
+  }
+  .button_active {
+    background-color: rgb(0, 0, 0);
+  }
