@@ -5,7 +5,6 @@ const moveObjects = (state, _) => {
 
     const { playerTank, bullets, computerTank, walls, field } = state;
     let newPlayerTank = {...playerTank};
-    const { width } = playerTank;
 
     return {
         ...state,
@@ -46,7 +45,7 @@ const moveObjects = (state, _) => {
         newStats.forEach((position) => {
             if((Math.abs(position.posX - PPosX) < Math.abs(CPosX - PPosX) 
             || Math.abs(position.posY - PPosY) < Math.abs(CPosY - PPosY))
-            && canMove(width, position.posX, position.posY) && !isTank(position.posX, position.posY, false)) {
+            && canMove(width, position.posX, position.posY) && !isObstacle(playerTank, playerTank.width, playerTank.width, width, newСPosX, newСPosY)) {
                 newСPosX = position.posX;
                 newСPosY = position.posY;
                 newDirection = position.direction;
@@ -84,7 +83,7 @@ const moveObjects = (state, _) => {
             let { width, direction } = newPlayerTank;
             newPlayerTank.posY += direction === 'up' ? -tankMovingDistance : direction === 'down' ? tankMovingDistance : 0;
             newPlayerTank.posX += direction === 'left' ? -tankMovingDistance : direction === 'right' ? tankMovingDistance : 0;
-            if(!canMove(width, newPlayerTank.posX, newPlayerTank.posY) || isTank(newPlayerTank.posX, newPlayerTank.posY, true)) {
+            if(!canMove(width, newPlayerTank.posX, newPlayerTank.posY) || isObstacle(computerTank, width, width, width, newPlayerTank.posX, newPlayerTank.posY)) {
                 newPlayerTank.posY = state.playerTank.posY;
                 newPlayerTank.posX = state.playerTank.posX;
             }
@@ -92,80 +91,40 @@ const moveObjects = (state, _) => {
         return newPlayerTank;
     }
 
-    function isTank(posX, posY, player) {
-        // debugger
-        if((!player && ((posX >= playerTank.posX
-            && posX <= playerTank.posX + playerTank.width
-            && posY >= playerTank.posY
-            && posY <= playerTank.posY + playerTank.width) 
-            ||(posX + width >= playerTank.posX
-            && posX + width <= playerTank.posX + playerTank.width
-            && posY >= playerTank.posY
-            && posY <= playerTank.posY + playerTank.width)
-            ||(posX >= playerTank.posX
-            && posX <= playerTank.posX + playerTank.width
-            && posY + width >= playerTank.posY
-            && posY + width <= playerTank.posY + playerTank.width)
-            ||(posX + width >= playerTank.posX
-            && posX + width <= playerTank.posX + playerTank.width
-            && posY + width >= playerTank.posY
-            && posY + width <= playerTank.posY + playerTank.width)))
-            || (player && ((posX >= computerTank.posX
-            && posX <= computerTank.posX + computerTank.width
-            && posY >= computerTank.posY
-            && posY <= computerTank.posY + computerTank.width) 
-            ||(posX + width >= computerTank.posX
-            && posX + width <= computerTank.posX + computerTank.width
-            && posY >= computerTank.posY
-            && posY <= computerTank.posY + computerTank.width)
-            ||(posX >= computerTank.posX
-            && posX <= computerTank.posX + computerTank.width
-            && posY + width >= computerTank.posY
-            && posY + width <= computerTank.posY + computerTank.width)
-            ||(posX + width >= computerTank.posX
-            && posX + width <= computerTank.posX + computerTank.width
-            && posY + width >= computerTank.posY
-            && posY + width <= computerTank.posY + computerTank.width)))) {
-                return true;
-        } else {
-            return false;
-        }
-    }
-
     function canMove(width, posX, posY) {
         let canMove = true;
                 
         walls.forEach(wall => {
-            if(isWall(wall, width, posX, posY)) {
+            if(isObstacle(wall, wall.width, wall.height, width, posX, posY)) {
                     canMove = false;
             }
         });
         if(posX < 0 || posY < 0 || posX > field.width - width || posY > field.height - width) canMove = false;
 
         return canMove;
+    }
 
-        function isWall(wall, width, posX, posY) {
-            if((posX >= wall.posX
-            && posX <= wall.posX + wall.width
-            && posY >= wall.posY
-            && posY <= wall.posY + wall.height) 
-            ||(posX + width >= wall.posX
-            && posX + width <= wall.posX + wall.width
-            && posY >= wall.posY
-            && posY <= wall.posY + wall.height)
-            ||(posX >= wall.posX
-            && posX <= wall.posX + wall.width
-            && posY + width >= wall.posY
-            && posY + width <= wall.posY + wall.height)
-            ||(posX + width >= wall.posX
-            && posX + width <= wall.posX + wall.width
-            && posY + width >= wall.posY
-            && posY + width <= wall.posY + wall.height)) {
-                return true;
-            } else {
-                return false;
-            }
-        } 
+    function isObstacle(obstacle, obstacleWidth, obstacleHeight, width, posX, posY) {
+        if((posX >= obstacle.posX
+        && posX <= obstacle.posX + obstacleWidth
+        && posY >= obstacle.posY
+        && posY <= obstacle.posY + obstacleHeight) 
+        ||(posX + width >= obstacle.posX
+        && posX + width <= obstacle.posX + obstacleWidth
+        && posY >= obstacle.posY
+        && posY <= obstacle.posY + obstacleHeight)
+        ||(posX >= obstacle.posX
+        && posX <= obstacle.posX + obstacleWidth
+        && posY + width >= obstacle.posY
+        && posY + width <= obstacle.posY + obstacleHeight)
+        ||(posX + width >= obstacle.posX
+        && posX + width <= obstacle.posX + obstacleWidth
+        && posY + width >= obstacle.posY
+        && posY + width <= obstacle.posY + obstacleHeight)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
