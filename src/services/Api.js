@@ -17,7 +17,7 @@ export default class Api {
 
   //POST
   //Добавялем нового игрока в базу
-  post(event) {
+  post(login, password, avatar, score) {
     return fetch(`${this.url}`, {
       method: "POST",
       headers: {
@@ -25,21 +25,20 @@ export default class Api {
       },
       body: JSON.stringify({
         player: {
-          login: event.currentTarget.elements.nickname.value,
-          password: event.currentTarget.elements.password.value,
-          avatar: event.currentTarget.elements.link.value,
-          score: 0
+          login,
+          password,
+          avatar,
+          score
         }
       })
-    })
-      .then(this.checkStatus)
+    }).then(this.checkStatus)
       .catch(this.showError);
   }
 
   //PUT
   //Обновляем информацию об игроке, необходимо указать ячейку игрока
   // например /panzer/players/3
-  put(num, event) {
+  put(num, login, password, avatar, score) {
     return fetch(`${this.url}/${num}`, {
       method: "PUT",
       headers: {
@@ -47,10 +46,10 @@ export default class Api {
       },
       body: JSON.stringify({
         player: {
-          login: event.currentTarget.elements.login.value,
-          password: event.currentTarget.elements.password.value,
-          avatar: event.currentTarget.elements.avatar.value,
-          score: event.currentTarget.elements.score.value
+          login,
+          password,
+          avatar,
+          score
         }
       })
     })

@@ -9,7 +9,8 @@ const initialState = {
         width: fieldWidth,
         height: fieldWidth,
         pause: false,
-        gameOver: true,
+        gameOver: false,
+        gameStarted: false,
         score: 0,
         lifes: 2,
     },
@@ -99,7 +100,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case "MOVE_OBJECTS":
-            if(state.field.pause) {
+            if(state.field.pause || !state.field.gameStarted || state.field.gameOver) {
                 return state;
             } else {
                 return moveObjects({ ...state }, action);
@@ -121,7 +122,7 @@ const reducer = (state = initialState, action) => {
                 }
             }
         case "UPDATE_MOVING_DIRECTION":
-            if(state.field.pause) {
+            if(state.field.pause || !state.field.gameStarted || state.field.gameOver) {
                 return state;
             } else {
                 return {
@@ -135,7 +136,7 @@ const reducer = (state = initialState, action) => {
         case "PLAYER_FIRE":
             return fire({ ...state }, true);
         case "COMPUTER_FIRE": 
-            if(state.field.pause) {
+            if(state.field.pause || !state.field.gameStarted || state.field.gameOver) {
                 return state;
             }
             return fire({ ...state }, false);
@@ -176,6 +177,16 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 leaderboard: action.payload,
             }
+        case "START_GAME": 
+            return {
+                ...state,
+                field: {
+                    ...state.field,
+                    gameStarted: true,
+                }
+            }
+        case "RESTART": 
+            return initialState;
         default:
             return state; 
     }

@@ -53,10 +53,19 @@ const updateFormValues = (key, value) => {
     }
 }
 const updateLeaderboard = (payload) => {
-    console.log(payload);
     return {
         type: "UPDATE_LEADERBOARD",
         payload
+    }
+}
+const startGame = () => {
+    return {
+        type: "START_GAME"
+    }
+}
+const restart = () => {
+    return {
+        type: "RESTART"
     }
 }
 
@@ -70,5 +79,7 @@ export {
     computerFire,
     authorize,
     updateFormValues,
-    updateLeaderboard
+    updateLeaderboard,
+    startGame,
+    restart
 }

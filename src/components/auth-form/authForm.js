@@ -19,8 +19,8 @@ class AuthForm extends Component {
 
 	submit(event) {
 		event.preventDefault();
-		let { api, authorize } = this.props;
-		api.post(event).then(res => authorize(true));
+		let { api, authorize, form: { nickname, password, link } } = this.props;
+		api.post(nickname, password, link, 0).then(() => authorize(true));
 	}
 
 	handleFormChange(ev) {

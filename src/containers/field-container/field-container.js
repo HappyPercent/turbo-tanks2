@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Field from '../../components/field';
+import Gameover from '../../components/gameover-overlay';
 import { toggleMoving, 
     updateMovingDirection, 
     moveObjects, 
     playerFire, 
     togglePause, 
     makeSootAvaliable, 
-    computerFire } from '../../actions';
+    computerFire,
+    startGame } from '../../actions';
             
 class FieldContainer extends Component {
 
@@ -53,32 +55,27 @@ class FieldContainer extends Component {
 
     handleKeyDown(ev) {
         if(ev.target.tagName !== 'INPUT') {
-            const { toggleMoving, 
-                updateMovingDirection, 
-                playerFire, 
+            const { playerFire, 
                 togglePause, 
                 makeSootAvaliable, 
                 playerTank: { canShoot, shootingDelay }} = this.props;
+            let move = moveFunc.bind(this);
             switch (ev.code) {
                 case 'KeyA':
                 case 'ArrowLeft':
-                    toggleMoving(true);
-                    updateMovingDirection('left');
+                    move('left');
                     break;
                 case 'KeyW':
                 case 'ArrowUp': 
-                    toggleMoving(true);
-                    updateMovingDirection('up');
+                    move('up');
                     break;
                 case 'KeyD':
                 case 'ArrowRight':
-                    toggleMoving(true);
-                    updateMovingDirection('right');
+                    move('right');
                     break;
                 case 'KeyS':
                 case 'ArrowDown':
-                    toggleMoving(true);
-                    updateMovingDirection('down');
+                    move('down');
                     break;
                 case 'Escape':
                     togglePause();
@@ -95,25 +92,44 @@ class FieldContainer extends Component {
                     break;
             }
         }
+
+        function moveFunc(direction){
+            const { toggleMoving, 
+                updateMovingDirection, 
+                startGame,
+                field: { gameStarted }} = this.props;
+            
+            if(!gameStarted) {
+                startGame();
+            }
+            toggleMoving(true);
+            updateMovingDirection(direction);
+        }
     }
 
     render() {
-        const { walls, bullets, playerTank, computerTank } = this.props;
+        const { walls, bullets, playerTank, computerTank, field: { gameOver } } = this.props;
         return (
-            <Field walls = { walls } 
-                bullets = { bullets } 
-                playerTank = { playerTank } 
-                computerTank = { computerTank }/>
+            <>
+            { gameOver ?
+                <Gameover /> :
+                <Field walls = { walls } 
+                    bullets = { bullets } 
+                    playerTank = { playerTank } 
+                    computerTank = { computerTank }/>
+            }
+            </>
         )
     }
 }
 
-const mapStateToProps = ({ walls, bullets, playerTank, computerTank }) => {
+const mapStateToProps = ({ walls, bullets, playerTank, computerTank, field }) => {
     return {
         walls,
         bullets, 
         playerTank,
-        computerTank
+        computerTank,
+        field
     }
 }
 
@@ -126,6 +142,7 @@ const mapDispatchToProps = (dispatch) => {
         togglePause: () => dispatch(togglePause()),
         makeSootAvaliable: () => dispatch(makeSootAvaliable()),
         computerFire: () => dispatch(computerFire()),
+        startGame: () => dispatch(startGame()),
     }
 }
 

@@ -7,6 +7,7 @@ import { compose } from '../../utils';
 import FieldContainer from '../../containers/field-container';
 import AuthForm from '../auth-form';
 import Leaderboard from '../leaderboard';
+import InfoTable from '../info-table';
 
 const App = ({ authorized }) => {
     return (
@@ -16,6 +17,7 @@ const App = ({ authorized }) => {
                 <Leaderboard /> : 
                 <AuthForm />
             }
+            <InfoTable />
         </>
     )
 };
