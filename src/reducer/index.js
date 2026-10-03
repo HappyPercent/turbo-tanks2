@@ -90,7 +90,6 @@ const initialState = {
     },
     form: {
         nickname: '',
-        password: '',
         link: '',
         authorized: false,
     },

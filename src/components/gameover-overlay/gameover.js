@@ -7,36 +7,23 @@ import { restart, updateLeaderboard } from '../../actions';
 import { compose } from '../../utils';
 import { withApi } from '../hoc';
 
+const TOP_PLAYERS = 9;
+
 class Gameover extends Component {
 
-    componentDidMount() {
-        const { api, nickname, password, link, score, updateLeaderboard } = this.props;
-        api.get()
-            .then((res) => res.players)
-            .then((data) => {
-                let player = data.find(player => player.login === nickname && player.password === password);
-                if(player) {
-                    api.put(player.id, player.login, player.password, player.avatar, score)
-                        .then(() => api.get()
-                            .then((res) => {
-                                return res.players.sort((a, b) => {return b.score - a.score})
-                            })
-                            .then((players) => players.slice(0, 9))
-                            .then(res => {
-                                updateLeaderboard(res);
-                            }));
-                } else {
-                    api.post(nickname, password, link, score)
-                        .then(() => api.get()
-                            .then((res) => {
-                                return res.players.sort((a, b) => {return b.score - a.score})
-                            })
-                            .then((players) => players.slice(0, 9))
-                            .then(res => {
-                                updateLeaderboard(res);
-                            }));
-                }
-            })
+    async componentDidMount() {
+        const { api, form: { nickname, link }, score, updateLeaderboard } = this.props;
+        const { players } = await api.get();
+        const player = players.find(p => p.login === nickname);
+
+        if (!player) {
+            await api.post(nickname, link, score);
+        } else if (score > player.score) {
+            await api.put(player.id, player.login, player.avatar, score);
+        }
+
+        const { players: updated } = await api.get();
+        updateLeaderboard(updated.sort((a, b) => b.score - a.score).slice(0, TOP_PLAYERS));
     }
 
     render() {
@@ -61,7 +48,7 @@ const mapDispatchToProps = (dispatch) => {
         restart: () => dispatch(restart()),
         updateLeaderboard: (leaderboard) => dispatch(updateLeaderboard(leaderboard)),
     }
-} 
+}
 
 export default compose(
     withApi(),

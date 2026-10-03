@@ -4,17 +4,15 @@ export default class Validation {
   }
 
   validate(event) {
-    const { nickname, password, link } = event.currentTarget.elements;
+    const { nickname, link } = event.currentTarget.elements;
     if (
       !nickname.validity.valid ||
-      !password.validity.valid ||
       !link.validity.valid
     ) {
-      this.checkEmptyInput(event, nickname, password, link);
-      this.checkRange(event, nickname, password, link);
-      this.checkCorrectInput(event, nickname, password, link);
+      this.checkEmptyInput(event, nickname, link);
+      this.checkRange(event, nickname, link);
+      this.checkCorrectInput(event, nickname, link);
       this.checkLink(event, link);
-      this.checkPassword(event, password);
       this.disableButton(event);
     } else {
       this.removeErrors(event);
@@ -82,17 +80,6 @@ export default class Validation {
           ).textContent = this.errors.ru.invalidLink;
         }
       });
-    }
-  }
-
-  //Проверка пароля
-  checkPassword(event, input) {
-    if (event.target.value.length === 1) {
-      if (event.target.name === input.name) {
-        document.querySelector(
-          `#${input.name}`
-        ).textContent = this.errors.ru.password;
-      }
     }
   }
 

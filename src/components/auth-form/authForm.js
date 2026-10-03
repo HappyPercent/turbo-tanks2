@@ -19,8 +19,8 @@ class AuthForm extends Component {
 
 	submit(event) {
 		event.preventDefault();
-		let { api, authorize, form: { nickname, password, link } } = this.props;
-		api.post(nickname, password, link, 0).then(() => authorize(true));
+		let { api, authorize, form: { nickname, link } } = this.props;
+		api.post(nickname, link, 0).then(() => authorize(true));
 	}
 
 	handleFormChange(ev) {
@@ -30,7 +30,7 @@ class AuthForm extends Component {
     render() {
 
 		const { validation, submit, handleFormChange } = this;
-		const { nickname, password, avatarLink } = this.props.form;
+		const { nickname, avatarLink } = this.props.form;
 
 		return (
 			<form
@@ -50,19 +50,6 @@ class AuthForm extends Component {
 					onChange={ ev => { handleFormChange(ev) }}
 				/>
 				<p id="nickname" className="error"></p>
-				</div>
-				<div className="row">
-				<label>Password</label>
-				<input
-					name="password"
-					value = { password }
-					type="password"
-					minLength="8"
-					maxLength="30"
-					required
-					onChange={ ev => { handleFormChange(ev) }}
-				/>
-				<p id="password" className="error"></p>
 				</div>
 				<div className="row">
 				<label>Avatar url</label>
