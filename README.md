@@ -1,4 +1,5 @@
 # Turbo Tanks
+[![CI](https://github.com/HappyPercent/turbo-tanks2/actions/workflows/ci.yml/badge.svg)](https://github.com/HappyPercent/turbo-tanks2/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Browser tank game: drive your tank around a walled arena and shoot an enemy tank that hunts you using A* pathfinding. Each hit scores a point, and the top scores go on a leaderboard.
 
